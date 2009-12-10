@@ -26,10 +26,12 @@ int aip_post_read_request(request_rec *r)
 	if (r->main || cfg->mask <= 0)
 		return DECLINED;
 
-	uint32_t mask = ~((1U << cfg->mask) - 1);
-	r->connection->remote_addr->sa.sin.sin_addr.s_addr &= htonl(mask);
-	r->connection->remote_ip = apr_pstrdup(r->connection->pool,
-			inet_ntoa(r->connection->remote_addr->sa.sin.sin_addr));
+	if (r->connection->remote_addr->sa.sin.sin_addr.s_addr != htonl(0x7F000001)) {
+		uint32_t mask = ~((1U << cfg->mask) - 1);
+		r->connection->remote_addr->sa.sin.sin_addr.s_addr &= htonl(mask);
+		r->connection->remote_ip = apr_pstrdup(r->connection->pool,
+				inet_ntoa(r->connection->remote_addr->sa.sin.sin_addr));
+	}
 
 	return DECLINED;
 }
@@ -103,7 +105,7 @@ const command_rec aip_cmds[] = {
 static
 void aip_register_hooks(apr_pool_t *p)
 {
-	ap_hook_post_read_request(aip_post_read_request, NULL, NULL, APR_HOOK_FIRST);
+	ap_hook_post_read_request(aip_post_read_request, NULL, NULL, APR_HOOK_MIDDLE);
 }
 
 module AP_MODULE_DECLARE_DATA anonymize_ip_module = {

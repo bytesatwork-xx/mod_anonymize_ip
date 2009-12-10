@@ -3,7 +3,7 @@ mod_anonymize_ip
 ================
 
 :Author: `Benedikt Böhm <bb@xnull.de>`_
-:Version: 0.1
+:Version: 0.2
 :Web: http://bb.xnull.de/projects/mod_anonymize_ip/
 :Source: http://git.xnull.de/gitweb/?p=mod_anonymize_ip.git
 :Download: http://bb.xnull.de/projects/mod_anonymize_ip/dist/
@@ -28,3 +28,9 @@ directive:
 
 AnonymizeIP <length>
   Mask <length> bits of the client IP address
+
+Bugs
+====
+
+Currently there is no possibility to exclude certain IPs from anonymization,
+which will render mod_authz_host useless in most cases.
