@@ -15,6 +15,7 @@ module AP_MODULE_DECLARE_DATA anonymize_ip_module;
 typedef struct {
 	int mask;
 	const char *dir;
+	apr_table_t *exceptions;
 } aip_cfg;
 
 static
@@ -23,7 +24,7 @@ int aip_post_read_request(request_rec *r)
 	aip_cfg *cfg = ap_get_module_config(r->per_dir_config,
 			&anonymize_ip_module);
 
-	if (r->main || cfg->mask <= 0)
+	if (r->main || cfg->mask <= 0 || apr_table_get(cfg->exceptions, r->uri))
 		return DECLINED;
 
 	if (r->connection->remote_addr->sa.sin.sin_addr.s_addr != htonl(0x7F000001)) {
@@ -43,6 +44,7 @@ void *aip_create_dir_config(apr_pool_t *p, char *dir)
 
 	cfg->dir = dir;
 	cfg->mask = -1;
+	cfg->exceptions = apr_table_make(p, 0);
 
 	return cfg;
 }
@@ -56,6 +58,7 @@ void *aip_merge_dir_config(apr_pool_t *p, void *parent, void *current)
 
 	cfg->dir = apr_pstrdup(p, current_cfg->dir);
 	cfg->mask = current_cfg->mask < 0 ? parent_cfg->mask : current_cfg->mask;
+	cfg->exceptions = apr_table_overlay(p, parent_cfg->exceptions, current_cfg->exceptions);
 
 	return cfg;
 }
@@ -67,6 +70,7 @@ void *aip_create_srv_config(apr_pool_t *p, server_rec *s)
 
 	cfg->dir = NULL;
 	cfg->mask = -1;
+	cfg->exceptions = apr_table_make(p, 0);
 
 	return cfg;
 }
@@ -78,7 +82,9 @@ void *aip_merge_srv_config(apr_pool_t *p, void *parent, void *current)
 	aip_cfg *current_cfg = (aip_cfg *) current;
 	aip_cfg *cfg = apr_pcalloc(p, sizeof(aip_cfg));
 
+	cfg->dir = current_cfg->dir == NULL ? parent_cfg->dir : current_cfg->dir;
 	cfg->mask = current_cfg->mask < 0 ? parent_cfg->mask : current_cfg->mask;
+	cfg->exceptions = apr_table_overlay(p, parent_cfg->exceptions, current_cfg->exceptions);
 
 	return cfg;
 }
@@ -92,6 +98,14 @@ const char *cmd_anonymize_ip(cmd_parms *cmd, void *mconfig, const char *arg)
 }
 
 static
+const char *cmd_anonymize_ip_exclude(cmd_parms *cmd, void *mconfig, const char *arg)
+{
+	aip_cfg *cfg = (aip_cfg *) mconfig;
+	apr_table_set(cfg->exceptions, arg, "true");
+	return NULL;
+}
+
+static
 const command_rec aip_cmds[] = {
 	AP_INIT_TAKE1(
 			"AnonymizeIP",
@@ -99,6 +113,12 @@ const command_rec aip_cmds[] = {
 			NULL,
 			RSRC_CONF,
 			"number of bits that should be anonymized"),
+	AP_INIT_TAKE1(
+			"AnonymizeIPException",
+			cmd_anonymize_ip_exclude,
+			NULL,
+			RSRC_CONF,
+			"exclude URLs from anonymization"),
 	{ NULL }
 };
 

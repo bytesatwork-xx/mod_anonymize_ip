@@ -3,7 +3,7 @@ mod_anonymize_ip
 ================
 
 :Author: `Benedikt Böhm <bb@xnull.de>`_
-:Version: 0.2
+:Version: 0.3
 :Web: http://bb.xnull.de/projects/mod_anonymize_ip/
 :Source: http://git.xnull.de/gitweb/?p=mod_anonymize_ip.git
 :Download: http://bb.xnull.de/projects/mod_anonymize_ip/dist/
@@ -28,6 +28,10 @@ directive:
 
 AnonymizeIP <length>
   Mask <length> bits of the client IP address
+
+AnonymizeIPException <uri>
+  Add an exception (i.e. do not anonymize IP) for the given URI. can be used
+  multiple times.
 
 Bugs
 ====

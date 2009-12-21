@@ -1,0 +1,5 @@
+.libs/
+mod_anonymize_ip.la
+mod_anonymize_ip.lo
+mod_anonymize_ip.o
+mod_anonymize_ip.slo
