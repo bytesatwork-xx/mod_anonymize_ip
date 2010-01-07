@@ -1,0 +1,2 @@
+.libs/mod_anonymize_ip.so		usr/lib/apache2/modules
+debian/anonymize_ip.load		etc/apache2/mods-available

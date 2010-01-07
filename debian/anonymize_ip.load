@@ -1,0 +1,1 @@
+LoadModule anonymize_ip_module /usr/lib/apache2/modules/mod_anonymize_ip.so

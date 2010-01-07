@@ -1,0 +1,6 @@
+libapache2-mod-anonymize-ip (0.3-1) unstable; urgency=low
+
+  * Initial release.
+
+ -- Benedikt Böhm <bb@xnull.de>  Thu, 07 Jan 2010 15:16:47 +0100
+
