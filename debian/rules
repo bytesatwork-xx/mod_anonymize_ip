@@ -1,8 +1,5 @@
 #!/usr/bin/make -f
 
-export DH_COMPAT=7
-export DH_OPTIONS=
-
 CFLAGS+=$(if $(findstring debug,$(DEB_BUILD_OPTIONS)),-g,)
 CFLAGS+=$(if $(findstring noopt,$(DEB_BUILD_OPTIONS)),-O0,-O2)
 APXS=/usr/bin/apxs2

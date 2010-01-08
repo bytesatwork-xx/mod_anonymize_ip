@@ -3,12 +3,12 @@ Section: web
 Priority: extra
 Maintainer: Benedikt Böhm <bb@xnull.de>
 Build-Depends: apache2-prefork-dev (>= 2.2) | apache2-threaded-dev (>= 2.2), debhelper (>= 7)
-Standards-Version: 3.7.3
+Standards-Version: 3.8.0
 Homepage: http://bb.xnull.de/projects/mod_anonymize_ip/
 
 Package: libapache2-mod-anonymize-ip
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Apache module to anonymize client IP addresses
-  mod_anonymize_ip is a simple apache module that implements bit masking for
-  anonymizing the client IP address.
+ mod_anonymize_ip is a simple apache module that implements bit masking for
+ anonymizing the client IP address.
