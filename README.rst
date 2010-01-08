@@ -3,7 +3,7 @@ mod_anonymize_ip
 ================
 
 :Author: `Benedikt Böhm <bb@xnull.de>`_
-:Version: 0.3
+:Version: 0.3.1
 :Web: http://bb.xnull.de/projects/mod_anonymize_ip/
 :Source: http://git.xnull.de/gitweb/?p=mod_anonymize_ip.git
 :Download: http://bb.xnull.de/projects/mod_anonymize_ip/dist/
