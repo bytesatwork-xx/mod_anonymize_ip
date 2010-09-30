@@ -4,9 +4,9 @@ mod_anonymize_ip
 
 :Author: `Benedikt Böhm <bb@xnull.de>`_
 :Version: 0.3.1
-:Web: http://bb.xnull.de/projects/mod_anonymize_ip/
-:Source: http://git.xnull.de/gitweb/?p=mod_anonymize_ip.git
-:Download: http://bb.xnull.de/projects/mod_anonymize_ip/dist/
+:Web: http://github.com/hollow/mod_anonymize_ip
+:Git: ``git clone https://github.com/hollow/mod_anonymize_ip.git``
+:Download: http://github.com/hollow/mod_anonymize_ip/downloads
 
 mod_anonymize_ip is a simple apache module that implements bit masking for
 anonymizing the client IP address.
