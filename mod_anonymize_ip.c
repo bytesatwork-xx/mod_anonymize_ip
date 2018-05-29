@@ -27,11 +27,14 @@ int aip_post_read_request(request_rec *r)
 	if (r->main || cfg->mask <= 0 || apr_table_get(cfg->exceptions, r->uri))
 		return DECLINED;
 
-	if (r->connection->remote_addr->sa.sin.sin_addr.s_addr != htonl(0x7F000001)) {
+	struct in_addr client_ip;
+	inet_aton(r->useragent_ip, &client_ip);
+
+	if (client_ip.s_addr != htonl(0x7F000001)) {
 		uint32_t mask = ~((1U << cfg->mask) - 1);
-		r->connection->remote_addr->sa.sin.sin_addr.s_addr &= htonl(mask);
-		r->connection->remote_ip = apr_pstrdup(r->connection->pool,
-				inet_ntoa(r->connection->remote_addr->sa.sin.sin_addr));
+		client_ip.s_addr &= htonl(mask);
+		r->useragent_ip = apr_pstrdup(r->connection->pool,
+				inet_ntoa(client_ip));
 	}
 
 	return DECLINED;

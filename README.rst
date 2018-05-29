@@ -27,7 +27,7 @@ In your virtual host and/or directory configuration add ithe following
 directive:
 
 AnonymizeIP <length>
-  Mask <length> bits of the client IP address
+  Mask <length> bits of the client IP address to be masked
 
 AnonymizeIPException <uri>
   Add an exception (i.e. do not anonymize IP) for the given URI. can be used
